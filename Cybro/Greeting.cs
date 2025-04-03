@@ -42,7 +42,7 @@ namespace Cybro
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("\nYou: ");
-            Console.ForegroundColor= ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.White;
             string userName = Console.ReadLine();
 
             Console.ForegroundColor = ConsoleColor.Red;
