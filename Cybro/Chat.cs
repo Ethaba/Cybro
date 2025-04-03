@@ -47,21 +47,23 @@ namespace Cybro
                     case "how are you?":
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.Write("\nCybro: ");
-                        Console.ForegroundColor = ConsoleColor.Yellow;
                         Thread.Sleep(1000);
+                        Console.ForegroundColor = ConsoleColor.Yellow;
                         TypeEffect.Type("I’m doing great! Thanks for asking. How about you?", 20);
 
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.Write("\nYou: ");
                         Console.ForegroundColor = ConsoleColor.White;
+
                         string response = Console.ReadLine().ToLower();
 
-                        if (response == "i'm doing good" || response == "i'm fine" || response == "good")
+                        if (response.Contains("good") || response.Contains("i'm doing good") || response.Contains("i'm fine"))
                         {
                             Console.ForegroundColor = ConsoleColor.Yellow;
                             TypeEffect.Type("\nThat's awesome! A positive mindset is key to staying safe online too.", 20);
+                            TypeEffect.Type($"\nAnything else you have in mind {userName}?", 20);
                         }
-                        else if (response == "not good" || response == "bad" || response == "i'm not good")
+                        else if (response.Contains("not good") || response.Contains("bad") || response.Contains("i'm not good"))
                         {
                             Console.ForegroundColor = ConsoleColor.Yellow;
                             TypeEffect.Type("\nI'm sorry to hear that. If you ever need a fun cybersecurity fact to cheer you up, let me know!", 20);

@@ -54,7 +54,7 @@ namespace Cybro
                     switch (choice)
                     {
                         case "1":
-                            //Console.WriteLine("\nLoading chat mode...");
+
                             Console.Clear();
                             chat.Showchat(userName, logo, this); //Pass 'this' to refer to the current Menu instance
                             break;
