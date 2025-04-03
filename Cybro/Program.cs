@@ -13,9 +13,10 @@ class Program
         greeting.audio();
         greeting.welcomeUser();
         string userName = greeting.welcomeUser();
+        string logo = greeting.welcomeUser();
        
         Menu menu = new Menu();
-        menu.showMenu(userName);
+        menu.showMenu(userName, logo);
     }
 }
 

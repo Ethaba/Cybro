@@ -10,11 +10,12 @@ namespace Cybro
 {
     class Topics
     {
-        public void showTopics(string userName, Menu menu)
+        public void showTopics(string userName, string logo, Menu menu)
         {
             TypeEffect.Type("Loading Cybersecurity Topics...", 20);
             Thread.Sleep(2000);
             Console.Clear();
+            Console.WriteLine(logo);
             header();
 
             bool running = true;
@@ -121,7 +122,8 @@ namespace Cybro
                             Thread.Sleep(2000);
                             running = false;
                             Console.Clear();
-                            menu.showMenu(userName);
+                            Console.WriteLine(logo);
+                            menu.showMenu(userName, logo);
                             break;
 
                         default:

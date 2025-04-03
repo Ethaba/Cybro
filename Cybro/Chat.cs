@@ -10,13 +10,14 @@ namespace Cybro
     class Chat
     {
         private Topics Cybertopics = new Topics();
-        public void Showchat(string userName, Menu menu) //passing the menu object to call the showMenu method
+        public void Showchat(string userName, string logo, Menu menu) //passing the menu object to call the showMenu method
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.White;
             TypeEffect.Type("Loading chat mode...", 30);
             Thread.Sleep(2000);
             Console.Clear();
+            Console.WriteLine(logo);
             Console.ForegroundColor = ConsoleColor.DarkMagenta;
             TypeEffect.Type("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=", 1);
             Console.ForegroundColor = ConsoleColor.White;
@@ -96,7 +97,7 @@ namespace Cybro
 
                         if (topics == "1")
                         {
-                            Cybertopics.showTopics(userName, menu);
+                            Cybertopics.showTopics(userName, logo, menu);
                         }
                         break;
 
@@ -108,7 +109,8 @@ namespace Cybro
                         Thread.Sleep(2000);
                         chat = false;
                         Console.Clear();
-                        menu.showMenu(userName);
+                        Console.WriteLine(logo);
+                        menu.showMenu(userName, logo);
                         break;
 
                     default:

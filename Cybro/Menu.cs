@@ -11,13 +11,12 @@ namespace Cybro
         private Chat chat = new Chat();
         private Topics topics = new Topics();
 
-        public void showMenu(string userName)
+        public void showMenu(string userName, string logo)
         {
             bool showMenu = true;
 
             while (showMenu)
             {
-                //Console.Clear();
                 Console.ForegroundColor = ConsoleColor.DarkMagenta;
                 Console.WriteLine("\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
                 Console.ForegroundColor = ConsoleColor.White;
@@ -57,12 +56,12 @@ namespace Cybro
                         case "1":
                             //Console.WriteLine("\nLoading chat mode...");
                             Console.Clear();
-                            chat.Showchat(userName, this); //Pass 'this' to refer to the current Menu instance
+                            chat.Showchat(userName, logo, this); //Pass 'this' to refer to the current Menu instance
                             break;
 
                         case "2":
                             Console.Clear();
-                            topics.showTopics(userName, this);
+                            topics.showTopics(userName, logo, this);
                             break;
 
                         case "3":

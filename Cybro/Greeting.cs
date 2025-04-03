@@ -54,7 +54,7 @@ namespace Cybro
             Console.ResetColor();
 
             Thread.Sleep(1000);
-            menu.showMenu(userName);
+            menu.showMenu(userName, logo);
 
             return userName;
         }
