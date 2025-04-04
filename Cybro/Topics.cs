@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -16,24 +17,23 @@ namespace Cybro
             Thread.Sleep(2000);
             Console.Clear();
             Console.WriteLine(logo);
-            header();
+            header(); //display header
 
             bool running = true;
 
-            while (running)
+            while (running) //Keeps the chatbot running until the user chooses to exit and return to the main menu
             {
                 Thread.Sleep(2000);
                 MenuDisplay();
 
-                while (true)
+                while (true) //Handles user input for selecting a topic and ensures proper validation
                 {
-
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write("\nYou: ");
                     Console.ForegroundColor = ConsoleColor.White;
                     string option = Console.ReadLine().ToLower();
 
-
+                    //handles empty user input
                     if (string.IsNullOrWhiteSpace(option))
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -41,6 +41,7 @@ namespace Cybro
                         continue;
                     }
 
+                    //A method corresponding with the option you choose is called
                     switch (option)
                     {
                         case "1":
@@ -80,7 +81,7 @@ namespace Cybro
                             break;
 
                         case "7":
-                        case "social engeneering attacks":
+                        case "social engineering attacks":
                             Thread.Sleep(1000);
                             socialEngineeringAttacks();
                             break;
@@ -120,10 +121,10 @@ namespace Cybro
                             Thread.Sleep(1000);
                             Console.WriteLine("Returning to the main menu...");
                             Thread.Sleep(2000);
-                            running = false;
+                            running = false; // Exit the outer while loop to return to the main menu
                             Console.Clear();
                             Console.WriteLine(logo);
-                            menu.showMenu(userName, logo);
+                            menu.showMenu(userName, logo); // Go back to main menu
                             break;
 
                         default:
@@ -132,7 +133,7 @@ namespace Cybro
                             Console.WriteLine("\nOops...I didn’t quite catch that. Try Again please.");
                             continue;
                     }
-                    break;
+                    break; // Break the inner while loop after a valid option
                 }
 
             }
@@ -198,6 +199,8 @@ namespace Cybro
             Console.ResetColor();
         }
 
+
+        //below is the information for each topic
         private void passwordSafety()
         {
             Console.WriteLine("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");

@@ -13,6 +13,7 @@ namespace Cybro
         public void Showchat(string userName, string logo, Menu menu) //passing the menu object to call the showMenu method
         {
             Console.Clear();
+            //Display header
             Console.ForegroundColor = ConsoleColor.White;
             TypeEffect.Type("Loading chat mode...", 30);
             Thread.Sleep(2000);
@@ -57,6 +58,7 @@ namespace Cybro
 
                         string response = Console.ReadLine().ToLower();
 
+                        //recognise the mood of the user
                         if (response.Contains("good") || response.Contains("i'm doing good") || response.Contains("i'm fine"))
                         {
                             Console.ForegroundColor = ConsoleColor.Yellow;

@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Cybro
 {
-    class TypeEffect
+    class TypeEffect 
     {
         public static void Type(string text, int delay)
         {
             foreach (char c in text)
             {
                 Console.Write(c);
-                System.Threading.Thread.Sleep(delay);
+                System.Threading.Thread.Sleep(delay); 
             }
             Console.WriteLine();
         }

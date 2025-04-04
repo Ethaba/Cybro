@@ -17,6 +17,7 @@ namespace Cybro
 
             while (showMenu)
             {
+                //Menu Display
                 Console.ForegroundColor = ConsoleColor.DarkMagenta;
                 Console.WriteLine("\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
                 Console.ForegroundColor = ConsoleColor.White;
@@ -56,7 +57,7 @@ namespace Cybro
                         case "1":
 
                             Console.Clear();
-                            chat.Showchat(userName, logo, this); //Pass 'this' to refer to the current Menu instance
+                            chat.Showchat(userName, logo, this); //Passing 'this' to refer to the current Menu instance
                             break;
 
                         case "2":

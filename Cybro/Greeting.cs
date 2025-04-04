@@ -14,7 +14,7 @@ namespace Cybro
     {
         private Menu menu = new Menu();
 
-        public void audio()
+        public void audio() // Play welcome sound
         {
             if (OperatingSystem.IsWindows())
             {
@@ -29,9 +29,9 @@ namespace Cybro
    __| \ \  / _ )  _ \   _ \  
   (     \  /  _ \    /  (   | 
  \___|   _|  ___/ _|_\ \___/   
--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 ";
-            Console.WriteLine(logo);
+            // Display logo and a welcome message
+            Console.WriteLine(logo); 
 
 
             Console.ForegroundColor = ConsoleColor.Yellow;
