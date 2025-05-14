@@ -9,6 +9,78 @@ namespace Cybro
     class Chat
     {
         private Topics Cybertopics = new Topics();
+        private Random rand = new Random();
+
+        // Tip collections for each topic
+        private readonly Dictionary<string, List<string>> topicTips = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["password"] = new List<string>
+            {
+                "Use at least 12 characters, mixing uppercase, lowercase letters, numbers, and symbols for maximum strength.",
+                "Never reuse passwords across multiple accounts—each login deserves its own unique key.",
+                "Try a memorable passphrase like “Blue Sky Horse 7!”—easy to remember, hard to crack."
+            },
+            ["phishing"] = new List<string>
+            {
+                "Hover over links before you click to see where they really lead.",
+                "Check the sender’s address for typos or odd domains—those are red flags.",
+                "If you’re unsure, don’t enter credentials; go to the site directly instead."
+            },
+            ["safe browsing"] = new List<string>
+            {
+                "Always look for “https://” and a padlock icon before entering any sensitive data.",
+                "Download software only from reputable sites you trust.",
+                "Keep your browser up to date—modern versions include built‑in security protection."
+            },
+            ["ransomware"] = new List<string>
+            {
+                "Back up important files regularly to an offline drive or secure cloud service.",
+                "Don’t open unexpected attachments—even if the email looks official.",
+                "Stay current with antivirus updates and system patches to block known threats."
+            },
+            ["public wi‑fi"] = new List<string>
+            {
+                "Use a VPN when connecting to public Wi‑Fi to encrypt your data.",
+                "Turn off auto‑connect so you won’t jump on unknown networks by accident.",
+                "Avoid banking or shopping when you’re on a public hotspot."
+            },
+            ["social engineering"] = new List<string>
+            {
+                "If you get an unexpected call claiming to be from your bank, hang up and call back on their official number.",
+                "Never share one‑time codes or passwords, even if the caller sounds urgent.",
+                "Question messages that pressure you to act immediately—legitimate requests don’t rush you."
+            },
+            ["deepfake"] = new List<string>
+            {
+                "Watch for odd lip movements or mismatched audio/video that feels “off.”",
+                "Verify urgent requests by contacting the person through a separate channel.",
+                "Be skeptical of any video or audio that pushes you to make quick decisions."
+            },
+            ["iot"] = new List<string>
+            {
+                "Change default passwords on all smart devices to something strong and unique.",
+                "Install firmware updates as soon as they’re available to fix security holes.",
+                "Keep your IoT gadgets on a separate network to limit potential cross‑device attacks."
+            },
+            ["email"] = new List<string>
+            {
+               "Enable spam filters and report phishing attempts to your email provider.",
+               "Never click links or open attachments from senders you don’t recognize.",
+               "Add two‑factor authentication to your email for an extra layer of protection."
+            },
+            ["software updates"] = new List<string>
+            {
+                "Turn on automatic updates for your operating system and key applications.",
+                "Restart or apply updates as soon as you see a pending notification.",
+                "Sign up for vendor security alerts so you know about critical patches immediately."
+            },
+            ["password policies"] = new List<string>
+            {
+               "Require passwords to be at least 12 characters long with mixed character types.",
+               "Force password changes every 90 days and prevent reuse of old passwords.",
+               "Consider using a password manager to generate and securely store credentials."
+            }
+        };
         public void Showchat(string userName, string logo, Menu menu) //passing the menu object to call the showMenu method
         {
             Console.Clear();
@@ -43,25 +115,25 @@ namespace Cybro
                     continue;
                 }
 
-                if (input.Contains("password"))
-                {
-                    Console.WriteLine("Tip: Use strong, unique passwords for each account.");
-                }
-                else if (input.Contains("scam"))
-                {
-                    Console.WriteLine("Tip: Always verify links before clicking; scammers disguise themselves.");
-                }
-                else if (input.Contains("privacy"))
-                {
-                    Console.WriteLine("Tip: Regularly review your privacy settings on social platforms.");
-                }
-                else
-                {
-                    Console.WriteLine("Sorry, I don’t have a tip for that.");
-                }
-            
 
-            switch (input)
+                foreach (var kv in topicTips)
+                {
+                    if (input.Contains(kv.Key) && input.Contains("tip"))
+                    {
+                        // Randomly select a tip
+                        var tipList = kv.Value;
+                        string tip = tipList[rand.Next(tipList.Count)];
+                        TypeEffect.Type(tip, 20);
+                        goto NextLoop;
+                    }
+                    else if (input.Contains(kv.Key))
+                    {
+                        // Provide general guidance if they mention a topic without requesting a tip
+                        TypeEffect.Type($"Let's talk about {kv.Key}. Type '{kv.Key} tip' for a quick tip.", 20);
+                        goto NextLoop;
+                    }
+                }
+                switch (input)
                 {
                     case "how are you":
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -142,6 +214,8 @@ namespace Cybro
                         Console.ResetColor();
                         break;
                 }
+            NextLoop:
+                ;
             }
         }
     }
