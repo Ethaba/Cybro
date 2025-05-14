@@ -89,8 +89,11 @@ namespace Cybro
             Console.Clear();
             Console.WriteLine(logo);
             TypeEffect.Type(new string('-', 93), 1);
+            Console.ForegroundColor = ConsoleColor.Yellow;
             TypeEffect.Type("                                     Chatting with Cybro!                                     ", 1);
+            Console.ForegroundColor = ConsoleColor.White;
             TypeEffect.Type(new string('-', 93), 1);
+            Console.ForegroundColor = ConsoleColor.Yellow;
             TypeEffect.Type($"\nIs there anything you'd like to ask me {userName}? (Type 'exit' to return to the main menu)", 20);
 
             bool chat = true;
@@ -107,94 +110,135 @@ namespace Cybro
                     continue;
                 }
 
-                // Sentiment detection
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("\nCybro: ");
+                Thread.Sleep(1000);
+                Console.ForegroundColor = ConsoleColor.Yellow;
+
+                // Sentiment detection for general mood
                 if (input.Contains("worried") || input.Contains("anxious") || input.Contains("scared"))
                 {
+
                     TypeEffect.Type("It's okay to feel that way. Let me share some tips to help you feel safer.", 20);
                     continue;
                 }
-                if (input.Contains("curious") || input.Contains("interested"))
-                {
-                    TypeEffect.Type("I love your enthusiasm! Ask me anything about cybersecurity.", 20);
 
-                    if (input.Contains("interested in"))
+                // Recognize "how are you" with or without question mark
+                if (input.Contains("how are you"))
+                {
+          
+                    TypeEffect.Type("I’m doing great, thanks for asking! How about you?", 20);
+
+
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("\nYou: ");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    string moodReply = Console.ReadLine().ToLower();
+
+                    
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("\nCybro: ");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+
+                    // Sentiment detection in reply
+                    if (moodReply.Contains("good") || moodReply.Contains("great") || moodReply.Contains("fine") || moodReply.Contains("okay"))
                     {
-                        string topic = input.Split(new[] { "interested in" }, StringSplitOptions.None)[1]
-                                            .Trim().TrimEnd('.');
-                        memory["favoriteTopic"] = topic;
-                        TypeEffect.Type($"I'll remember that you're interested in {topic}.", 20);
+                        TypeEffect.Type("Glad to hear you're doing well! Let's keep the conversation going.", 20);
+                    }
+                    else if (moodReply.Contains("not good") || moodReply.Contains("bad") || moodReply.Contains("sad") || moodReply.Contains("tired"))
+                    {
+                        TypeEffect.Type("I'm sorry to hear that. If you want to talk or need a tip, just let me know.", 20);
                     }
                     continue;
                 }
 
-                // Keyword recognition & tips
+                if (input.Contains("purpose"))
+                {
+                    TypeEffect.Type("My purpose is to help you stay cyber-safe! To answer questions, share security tips, & guide you through online threats.", 20);
+                    continue;
+                }
+
+   
+                // Track if we handled any valid input
+                bool matched = false;
+
+                if (input.Contains("interested in"))
+                {
+                    int start = input.IndexOf("interested in") + "interested in".Length;
+                    string topic = input.Substring(start).Trim(new char[] { ' ', '.', '?' });
+
+                    if (!string.IsNullOrWhiteSpace(topic))
+                    {
+                        memory["favoriteTopic"] = topic;
+                        TypeEffect.Type($"Got it — I'll remember you're interested in {topic}.", 20);
+                    }
+                    else
+                    {
+                        TypeEffect.Type("Can you tell me which topic you're interested in?", 20);
+                    }
+                    continue;
+                }
+
                 foreach (var kv in topicTips)
                 {
                     if (input.Contains(kv.Key) && input.Contains("tip"))
                     {
-                        // Randomly select a tip
-                        var tipList = kv.Value;
-                        string tip = tipList[rand.Next(tipList.Count)];
+                        var tips = kv.Value;
+                        string tip = tips[rand.Next(tips.Count)];
                         TypeEffect.Type(tip, 20);
-                        goto NextLoop;
+                        matched = true;
+                        break;
                     }
                     else if (input.Contains(kv.Key))
                     {
-                        // Provide general guidance if they mention a topic without requesting a tip
-                        TypeEffect.Type($"Let's talk about {kv.Key}. Type '{kv.Key} tip' for a quick tip.", 20);
-                        goto NextLoop;
+                        TypeEffect.Type($"Great topic! If you'd like a tip on {kv.Key}, just type '{kv.Key} tip'.", 20);
+                        matched = true;
+                        break;
                     }
                 }
 
-                // Specific commands
-                switch (input)
+                if (matched) continue;
+
+
+                // Specific exit handling
+                if (input == "exit")
                 {
-                    case "how are you":
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.Write("\nCybro: ");
-                        Thread.Sleep(1000);
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        TypeEffect.Type("I’m doing great! Thanks for asking. How about you?", 20);
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Thread.Sleep(1000);
+                    TypeEffect.Type($"\nIt was great chatting with you, {userName}! Stay cyber-safe!", 20);
+                    TypeEffect.Type("\nReturning to the main menu...", 20);
+                    Thread.Sleep(2000);
+                    chat = false;
+                    Console.Clear();
+                    Console.WriteLine(logo);
+                    menu.showMenu(userName, logo);
+                    break;
+                }
 
-                        string response = Console.ReadLine().ToLower().Trim();
+                // Memory recall
+                if (input.Contains("remind me") || input.Contains("what did i say"))
+                {
+                    if (memory.TryGetValue("favoriteTopic", out var fav))
+                        TypeEffect.Type($"You told me you're interested in {fav}.", 20);
+                    else
+                        TypeEffect.Type("I don't have anything saved yet. Tell me what topic you like by saying 'I'm interested in ...'", 20);
+                    continue;
+                }
 
-                        if (response.Contains("good") || response.Contains("great") || response.Contains("fine"))
-                        {
-                            TypeEffect.Type("That's awesome to hear! Let's keep the good vibes going.", 20);
-                        }
-                        else if (response.Contains("not good") || response.Contains("bad"))
-                        {
-                            TypeEffect.Type("I'm sorry to hear that. If you want to talk about it, I'm here for you.", 20);
-                        }
-                        break;
-
-                    case "exit":
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Thread.Sleep(1000);
-                        TypeEffect.Type($"\nIt was great chatting with you, {userName}! Stay cyber-safe!", 20);
-                        TypeEffect.Type("\nReturning to the main menu...", 20);
-                        Thread.Sleep(2000);
-                        chat = false;
-                        Console.Clear();
-                        Console.WriteLine(logo);
-                        menu.showMenu(userName, logo);
-                        break;
-
-                    default:
-                        // Memory recall if we know their favorite topic
-                        if (memory.TryGetValue("favoriteTopic", out var fav))
-                        {
-                            TypeEffect.Type($"As someone interested in {fav}, you might find this tip helpful: (type '{fav} tip' for a quick tip)", 20);
-                        }
-                        else
-                        {
-                            TypeEffect.Type("\nI'm not sure I understand. Could you try rephrasing or ask for a specific tip?", 20);
-                        }
-                        break;
+                // Memory-based fallback only if no match
+                if (memory.TryGetValue("favoriteTopic", out var favorite))
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    TypeEffect.Type($"As someone interested in {favorite}, you might find this tip helpful: type '{favorite} tip'.", 20);
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    TypeEffect.Type("I'm not sure I understand. Could you try rephrasing or ask for a specific tip?", 20);
                 }
 
             NextLoop:
-                ; // continue the while loop
+                ; // continue while
             }
         }
     }
