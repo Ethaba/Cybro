@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace Cybro
 {
@@ -82,40 +80,34 @@ namespace Cybro
                "Consider using a password manager to generate and securely store credentials."
             }
         };
-        public void Showchat(string userName, string logo, Menu menu) //passing the menu object to call the showMenu method
+
+        public void Showchat(string userName, string logo, Menu menu)
         {
             Console.Clear();
-
-
-            Console.ForegroundColor = ConsoleColor.White;
             TypeEffect.Type("Loading chat mode...", 30);
             Thread.Sleep(2000);
             Console.Clear();
             Console.WriteLine(logo);
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            TypeEffect.Type("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=", 1);
-            Console.ForegroundColor = ConsoleColor.White;
+            TypeEffect.Type(new string('-', 93), 1);
             TypeEffect.Type("                                     Chatting with Cybro!                                     ", 1);
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            TypeEffect.Type("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=", 1);
-            Console.ForegroundColor = ConsoleColor.Yellow;
+            TypeEffect.Type(new string('-', 93), 1);
             TypeEffect.Type($"\nIs there anything you'd like to ask me {userName}? (Type 'exit' to return to the main menu)", 20);
 
             bool chat = true;
-
             while (chat)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("\nYou: ");
                 Console.ForegroundColor = ConsoleColor.White;
-                string input = Console.ReadLine().ToLower();
+                string input = Console.ReadLine().ToLower().Trim();
 
-                if (string.IsNullOrWhiteSpace(input))
+                if (string.IsNullOrEmpty(input))
                 {
                     TypeEffect.Type("\nOops! Looks like you didn’t enter anything. Please type something.", 20);
                     continue;
                 }
 
+                // Sentiment detection
                 if (input.Contains("worried") || input.Contains("anxious") || input.Contains("scared"))
                 {
                     TypeEffect.Type("It's okay to feel that way. Let me share some tips to help you feel safer.", 20);
@@ -135,6 +127,7 @@ namespace Cybro
                     continue;
                 }
 
+                // Keyword recognition & tips
                 foreach (var kv in topicTips)
                 {
                     if (input.Contains(kv.Key) && input.Contains("tip"))
@@ -152,6 +145,8 @@ namespace Cybro
                         goto NextLoop;
                     }
                 }
+
+                // Specific commands
                 switch (input)
                 {
                     case "how are you":
@@ -161,56 +156,15 @@ namespace Cybro
                         Console.ForegroundColor = ConsoleColor.Yellow;
                         TypeEffect.Type("I’m doing great! Thanks for asking. How about you?", 20);
 
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.Write("\nYou: ");
-                        Console.ForegroundColor = ConsoleColor.White;
+                        string response = Console.ReadLine().ToLower().Trim();
 
-                        string response = Console.ReadLine().ToLower();
-
-
-                        if (response.Contains("good") || response.Contains("i'm doing good") || response.Contains("i'm fine"))
+                        if (response.Contains("good") || response.Contains("great") || response.Contains("fine"))
                         {
-                            Console.ForegroundColor = ConsoleColor.Yellow;
-                            TypeEffect.Type("\nThat's awesome! A positive mindset is key to staying safe online too.", 20);
-                            TypeEffect.Type($"\nAnything else you have in mind {userName}?", 20);
+                            TypeEffect.Type("That's awesome to hear! Let's keep the good vibes going.", 20);
                         }
-                        else if (response.Contains("not good") || response.Contains("bad") || response.Contains("i'm not good"))
+                        else if (response.Contains("not good") || response.Contains("bad"))
                         {
-                            Console.ForegroundColor = ConsoleColor.Yellow;
-                            TypeEffect.Type("\nI'm sorry to hear that. If you ever need a fun cybersecurity fact to cheer you up, let me know!", 20);
-                        }
-                        else
-                        {
-                            Console.ForegroundColor = ConsoleColor.Yellow;
-                            TypeEffect.Type("\nSorry, I do not understand", 20);
-                        }
-                        break;
-
-                    case "what's your purpose":
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.Write("\nCybro: ");
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Thread.Sleep(1000);
-                        TypeEffect.Type("My purpose is simple—helping you stay cyber-safe! I can answer questions, share security tips, and guide you through online threats.", 30);
-                        break;
-
-                    case "what can i ask about you?":
-                        Console.ForegroundColor = ConsoleColor.DarkRed;
-                        Console.Write("\nCybro: ");
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Thread.Sleep(1000);
-                        TypeEffect.Type("I may be a bot, but I’ve got a brain full of cybersecurity knowledge!", 20);
-                        TypeEffect.Type("\nYou can ask me about things like strong passwords, phishing, or social engineering.", 20);
-                        TypeEffect.Type("\n🔹 Press 1 to open Cybersecurity Topics.", 20);
-
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.Write("\nYou: ");
-                        Console.ForegroundColor = ConsoleColor.White;
-                        string topics = Console.ReadLine();
-
-                        if (topics == "1") //if user clickes 1 they will be redirected to the topics interface
-                        {
-                            Cybertopics.showTopics(userName, logo, menu);
+                            TypeEffect.Type("I'm sorry to hear that. If you want to talk about it, I'm here for you.", 20);
                         }
                         break;
 
@@ -238,8 +192,9 @@ namespace Cybro
                         }
                         break;
                 }
+
             NextLoop:
-                ;
+                ; // continue the while loop
             }
         }
     }
