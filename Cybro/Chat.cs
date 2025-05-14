@@ -9,6 +9,7 @@ namespace Cybro
     class Chat
     {
         private Topics Cybertopics = new Topics();
+        private Dictionary<string, string> memory = new Dictionary<string, string>();
         private Random rand = new Random();
 
         // Tip collections for each topic
@@ -115,6 +116,24 @@ namespace Cybro
                     continue;
                 }
 
+                if (input.Contains("worried") || input.Contains("anxious") || input.Contains("scared"))
+                {
+                    TypeEffect.Type("It's okay to feel that way. Let me share some tips to help you feel safer.", 20);
+                    continue;
+                }
+                if (input.Contains("curious") || input.Contains("interested"))
+                {
+                    TypeEffect.Type("I love your enthusiasm! Ask me anything about cybersecurity.", 20);
+
+                    if (input.Contains("interested in"))
+                    {
+                        string topic = input.Split(new[] { "interested in" }, StringSplitOptions.None)[1]
+                                            .Trim().TrimEnd('.');
+                        memory["favoriteTopic"] = topic;
+                        TypeEffect.Type($"I'll remember that you're interested in {topic}.", 20);
+                    }
+                    continue;
+                }
 
                 foreach (var kv in topicTips)
                 {
@@ -208,10 +227,15 @@ namespace Cybro
                         break;
 
                     default:
-                        Console.ForegroundColor = ConsoleColor.DarkRed;
-                        Thread.Sleep(1000);
-                        TypeEffect.Type("\nOops...I didn’t quite catch that. Try Again please.", 20);
-                        Console.ResetColor();
+                        // Memory recall if we know their favorite topic
+                        if (memory.TryGetValue("favoriteTopic", out var fav))
+                        {
+                            TypeEffect.Type($"As someone interested in {fav}, you might find this tip helpful: (type '{fav} tip' for a quick tip)", 20);
+                        }
+                        else
+                        {
+                            TypeEffect.Type("\nI'm not sure I understand. Could you try rephrasing or ask for a specific tip?", 20);
+                        }
                         break;
                 }
             NextLoop:
