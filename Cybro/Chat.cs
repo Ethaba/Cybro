@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace Cybro
 {
     class Chat
@@ -13,7 +12,8 @@ namespace Cybro
         public void Showchat(string userName, string logo, Menu menu) //passing the menu object to call the showMenu method
         {
             Console.Clear();
-            //Display header
+
+
             Console.ForegroundColor = ConsoleColor.White;
             TypeEffect.Type("Loading chat mode...", 30);
             Thread.Sleep(2000);
@@ -43,9 +43,27 @@ namespace Cybro
                     continue;
                 }
 
-                switch (input)
+                if (input.Contains("password"))
                 {
-                    case "how are you?":
+                    Console.WriteLine("Tip: Use strong, unique passwords for each account.");
+                }
+                else if (input.Contains("scam"))
+                {
+                    Console.WriteLine("Tip: Always verify links before clicking; scammers disguise themselves.");
+                }
+                else if (input.Contains("privacy"))
+                {
+                    Console.WriteLine("Tip: Regularly review your privacy settings on social platforms.");
+                }
+                else
+                {
+                    Console.WriteLine("Sorry, I don’t have a tip for that.");
+                }
+            
+
+            switch (input)
+                {
+                    case "how are you":
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.Write("\nCybro: ");
                         Thread.Sleep(1000);
@@ -58,7 +76,7 @@ namespace Cybro
 
                         string response = Console.ReadLine().ToLower();
 
-                        //recognise the mood of the user
+
                         if (response.Contains("good") || response.Contains("i'm doing good") || response.Contains("i'm fine"))
                         {
                             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -77,7 +95,7 @@ namespace Cybro
                         }
                         break;
 
-                    case "what's your purpose?":
+                    case "what's your purpose":
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.Write("\nCybro: ");
                         Console.ForegroundColor = ConsoleColor.Yellow;
@@ -99,7 +117,7 @@ namespace Cybro
                         Console.ForegroundColor = ConsoleColor.White;
                         string topics = Console.ReadLine();
 
-                        if (topics == "1")
+                        if (topics == "1") //if user clickes 1 they will be redirected to the topics interface
                         {
                             Cybertopics.showTopics(userName, logo, menu);
                         }

@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-
 
 namespace Cybro
 {
@@ -17,125 +11,79 @@ namespace Cybro
             Thread.Sleep(2000);
             Console.Clear();
             Console.WriteLine(logo);
-            header(); //display header
+            header();
 
             bool running = true;
-
-            while (running) //Keeps the chatbot running until the user chooses to exit and return to the main menu
+            while (running)
             {
                 Thread.Sleep(2000);
                 MenuDisplay();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("\nYou: ");
+                Console.ForegroundColor = ConsoleColor.White;
+                var option = Console.ReadLine()?.ToLower().Trim();
 
-                while (true) //Handles user input for selecting a topic and ensures proper validation
+                if (string.IsNullOrWhiteSpace(option))
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write("\nYou: ");
-                    Console.ForegroundColor = ConsoleColor.White;
-                    string option = Console.ReadLine().ToLower();
-
-                    //handles empty user input
-                    if (string.IsNullOrWhiteSpace(option))
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("\nOops! Looks like you didn’t enter anything. Please select a valid option.");
-                        continue;
-                    }
-
-                    //A method corresponding with the option you choose is called
-                    switch (option)
-                    {
-                        case "1":
-                        case "password safety":
-                            Thread.Sleep(1000);
-                            passwordSafety();
-                            break;
-
-                        case "2":
-                        case "two-factor authentication":
-                            Thread.Sleep(1000);
-                            TwoFactorAuth();
-                            break;
-
-                        case "3":
-                        case "phishing":
-                            Thread.Sleep(1000);
-                            phishing();
-                            break;
-
-                        case "4":
-                        case "safe browsing":
-                            Thread.Sleep(1000);
-                            safeBrowsing();
-                            break;
-
-                        case "5":
-                        case "ransomware attacks":
-                            Thread.Sleep(1000);
-                            ransomwareAttacks();
-                            break;
-
-                        case "6":
-                        case "public Wi-Fi risks":
-                            Thread.Sleep(1000);
-                            publicWiFiRisks();
-                            break;
-
-                        case "7":
-                        case "social engineering attacks":
-                            Thread.Sleep(1000);
-                            socialEngineeringAttacks();
-                            break;
-
-                        case "8":
-                        case "deepfake scams":
-                            Thread.Sleep(1000);
-                            Deepfakes();
-                            break;
-
-                        case "9":
-                        case "internet of things (IoT) security":
-                            Thread.Sleep(1000);
-                            IoTSecurity();
-                            break;
-
-                        case "10":
-                        case "email security":
-                            Thread.Sleep(1000);
-                            EmailSecurity();
-                            break;
-
-                        case "11":
-                        case "why software updates matter for cybersecurity":
-                            Thread.Sleep(1000);
-                            SoftwareUpdates();
-                            break;
-
-                        case "12":
-                        case "strong password policies":
-                            Thread.Sleep(1000);
-                            passwordPolicies();
-                            break;
-
-                        case "13":
-                        case "exit":
-                            Thread.Sleep(1000);
-                            Console.WriteLine("Returning to the main menu...");
-                            Thread.Sleep(2000);
-                            running = false; // Exit the outer while loop to return to the main menu
-                            Console.Clear();
-                            Console.WriteLine(logo);
-                            menu.showMenu(userName, logo); // Go back to main menu
-                            break;
-
-                        default:
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Thread.Sleep(1000);
-                            Console.WriteLine("\nOops...I didn’t quite catch that. Try Again please.");
-                            continue;
-                    }
-                    break; // Break the inner while loop after a valid option
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("\nOops! Looks like you didn’t enter anything. Please select a valid option.");
+                    continue;
                 }
 
+                switch (option)
+                {
+                    case "1":
+                    case "password safety":
+                        Thread.Sleep(1000); passwordSafety(); break;
+                    case "2":
+                    case "two-factor authentication":
+                        Thread.Sleep(1000); TwoFactorAuth(); break;
+                    case "3":
+                    case "phishing":
+                        Thread.Sleep(1000); phishing(); break;
+                    case "4":
+                    case "safe browsing":
+                        Thread.Sleep(1000); safeBrowsing(); break;
+                    case "5":
+                    case "ransomware attacks":
+                        Thread.Sleep(1000); ransomwareAttacks(); break;
+                    case "6":
+                    case "public wi-fi risks":
+                        Thread.Sleep(1000); publicWiFiRisks(); break;
+                    case "7":
+                    case "social engineering attacks":
+                        Thread.Sleep(1000); socialEngineeringAttacks(); break;
+                    case "8":
+                    case "deepfake scams":
+                        Thread.Sleep(1000); Deepfakes(); break;
+                    case "9":
+                    case "internet of things (iot) security":
+                        Thread.Sleep(1000); IoTSecurity(); break;
+                    case "10":
+                    case "email security":
+                        Thread.Sleep(1000); EmailSecurity(); break;
+                    case "11":
+                    case "why software updates matter for cybersecurity":
+                        Thread.Sleep(1000); SoftwareUpdates(); break;
+                    case "12":
+                    case "strong password policies":
+                        Thread.Sleep(1000); passwordPolicies(); break;
+                    case "13":
+                    case "exit":
+                        Thread.Sleep(1000);
+                        Console.WriteLine("Returning to the main menu...");
+                        Thread.Sleep(2000);
+                        running = false;
+                        Console.Clear();
+                        Console.WriteLine(logo);
+                        menu.showMenu(userName, logo);
+                        break;
+                    default:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Thread.Sleep(1000);
+                        Console.WriteLine("\nOops...I didn’t quite catch that. Try Again please.");
+                        break;
+                }
             }
         }
 
